@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Response delete {% endblock title %}
+
+
+{% block content %}
+<h1> Delete response? </h1>
+<h1> {{ comment_delete.dateCreation|date:'M d Y' }} </h1>
+<hr>
+<h3> {{ comment_delete.text }} </h3>
+{% if order_detail.upload %}
+<img src="/media/{{ order_delete.upload }}" >
+{% else %}
+{% endif %}
+
+<h1><form method="POST">
+    {% csrf_token %}
+    <input type="submit" value=">> Confirm <<"> </form></h1>
+
+{% endblock content %}

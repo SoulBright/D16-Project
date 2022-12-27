@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Order {% endblock title %}
+
+
+{% block content %}
+<h1> {{ order_detail.title }}  </h1>
+<h3> {{ order_detail.author }} </h3>
+<h3> {{ order_detail.dateCreation|date:'M d Y' }} </h3>
+<hr>
+<h3>
+    {{ order_detail.text }}
+</h3>
+{% if order_detail.upload %}
+    <img src="/media/{{ order_detail.upload }}" >
+{% endif %}
+
+<hr>
+<h3> Users responses: </h3>
+<p> Total Responses({{ comments.count }}) </p><hr>
+{% if comments  %}
+    {% for comment in comments %}
+        <li>
+            {{ comment.commentUser }}  {{ comment.dateCreation|date:'M d Y' }} <br>
+            <h3> {{ comment.text }} </h3>
+                {% if comment.status %}
+                    <p> Status: <span style="color: green;"> order accepted! </span></p>
+                {% else %}
+                    <p> Status: <span style="color: red;"> order not accepted! </span></p>
+            {% endif %}
+        </li><br>
+    {% endfor %}
+{% else %}
+    <p> No orders </p>
+{% endif %}
+
+<hr>
+<p> Add response </p>
+
+<form action="" id="add_form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
+
+<button form="add_form" type="submit" class="btn-primary"> add response </button>
+
+<hr>
+{% endblock content %}

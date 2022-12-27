@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} <h1>Orders:</h1> {% endblock title %}
+
+{% block content %}
+<h1> Responses to mine orders: </h1>
+
+    <form action="" method="get">
+            {{ filterset.form.as_p }}
+        <input type="submit" value="search" />
+    </form>
+
+<hr>
+    <table>
+        <tr>
+            <td><h5> Order title</h5></td>
+            <td><h5> Comment author </h5></td>
+            <td><h5> Date creation </h5></td>
+            <td><h5> Preview </h5></td>
+            <td><h5> Status </h5></td>
+        </tr>
+    {% for comment in mine_order_list %}
+        {% if user == comment.commentOrder.author %}
+        <tr>
+            <td><h5> {{ comment.commentOrder|truncatechars:20 }}</h5></td>
+            <td><h5> {{ comment.commentUser }} </h5></td>
+            <td><h5> {{ comment.dateCreation|date:'M d Y' }} </h5></td>
+            <td><h5> {{ comment.text|truncatechars:50 }} </h5></td>
+            <td><h5>
+                {% if comment.status %}
+                    <span style="color: green;"> accepted! </span>
+                {% else %}
+                    <span style="color: red;"> not accepted! </span>
+                {% endif %}
+            </h5></td>
+            <td><h5>
+                {% if comment.status %}
+                    <a href="{% url 'comment_delete' comment.id %}"><u> Delete </u></a>
+                {% else %}
+                    <a href="{% url 'comment_delete' comment.id %}"><u> Delete </u></a>
+                    <a href="{% url 'accept' comment.id %}"><u> Accept </u></a>
+                {% endif %}
+            </h5></td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+<hr>
+{% endblock content %}
